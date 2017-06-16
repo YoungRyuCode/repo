@@ -1,0 +1,1 @@
+﻿Read-Host -Prompt "Enter your tenant password" -AsSecureString | ConvertFrom-SecureString | Out-File "C:\Users\Young_Ryu\OneDrive - Nutanix\Application Services\O365\PowerShell\EncriptedPW\cred.txt"

@@ -1,0 +1,296 @@
+<script src="/Style%20Library/Nutanix/FormID/jquery.min.js"></script>
+<script src="/Style%20Library/Nutanix/Scripts/SPUtility.min.js"></script>
+<script>
+	$(document).ready(function(){
+	    var formType = SPUtility.GetSPField('Form Type');
+		var approvalProcess = SPUtility.GetSPField('Approval Process ?');
+		var published = SPUtility.GetSPField('Published');
+		var whereToSend = SPUtility.GetSPField('Where to send ?');			
+		
+	    var HideOrShowOthersField=function(){
+
+			var formValue = formType.GetValue();
+			var approvalProcessValue = approvalProcess.GetValue();			
+									
+	        if(approvalProcessValue == 'Yes')
+	        {
+				SPUtility.GetSPField('Approval Process ?').Show();
+				SPUtility.GetSPField('Form Type').Show();				
+				
+				if(formValue == 'IT Alert')
+				{										
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Hide();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Estimated Downtime').Hide();	
+					SPUtility.GetSPField('Location').Hide();	            
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Show();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();								
+					SPUtility.GetSPField('Approver').Show();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();	
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Show();			
+					//SPUtility.GetSPField('Expires').Show();					
+				}
+				else if(formValue == 'IT Announcement')
+				{					
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Show();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Estimated Downtime').Hide();
+					SPUtility.GetSPField('Location').Hide();	            			
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Show();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();					
+					SPUtility.GetSPField('Approver').Show();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Show();
+					//SPUtility.GetSPField('Expires').Show();
+				}
+				else if (formValue == 'IT Maintenance')
+				{					
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Show();
+					SPUtility.GetSPField('From').Show();
+					SPUtility.GetSPField('To').Show();
+					SPUtility.GetSPField('Estimated Downtime').Show();
+					SPUtility.GetSPField('Location').Show();	            
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Hide();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();					
+					SPUtility.GetSPField('Approver').Show();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Show();
+					//SPUtility.GetSPField('Expires').Show();
+				}
+				else
+				{
+					SPUtility.GetSPField('Approval Process ?').Show();
+					SPUtility.GetSPField('Title').Hide();
+					SPUtility.GetSPField('What is happening').Hide();
+					SPUtility.GetSPField('When').Hide();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Estimated Downtime').Hide();
+					SPUtility.GetSPField('Location').Hide();	            
+					SPUtility.GetSPField('Impact').Hide();
+					SPUtility.GetSPField('What we need to do').Hide();
+					SPUtility.GetSPField('Support Information').Hide();
+					SPUtility.GetSPField('Published').Hide();					
+					SPUtility.GetSPField('Approver').Hide();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Hide();
+					//SPUtility.GetSPField('Expires').Hide();
+				}				
+			}
+			else if(approvalProcessValue == 'No')
+	        {			
+				SPUtility.GetSPField('Approval Process ?').Show();
+				SPUtility.GetSPField('Form Type').Show();
+				
+				if(formValue == 'IT Alert')
+				{					
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Hide();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Location').Hide();	  
+					SPUtility.GetSPField('Estimated Downtime').Hide();          
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Show();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();								
+					SPUtility.GetSPField('Approver').Hide();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Hide();
+					//SPUtility.GetSPField('Expires').Show();	
+				}
+				else if(formValue == 'IT Announcement')
+				{					
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Show();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Estimated Downtime').Hide();
+					SPUtility.GetSPField('Location').Hide();	            			
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Show();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();					
+					SPUtility.GetSPField('Approver').Hide();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Hide();
+					//SPUtility.GetSPField('Expires').Show();
+				}
+				else if (formValue == 'IT Maintenance')
+				{					
+					SPUtility.GetSPField('Title').Show();
+					SPUtility.GetSPField('What is happening').Show();
+					SPUtility.GetSPField('When').Show();
+					SPUtility.GetSPField('From').Show();
+					SPUtility.GetSPField('To').Show();
+					SPUtility.GetSPField('Estimated Downtime').Show();
+					SPUtility.GetSPField('Location').Show();	            
+					SPUtility.GetSPField('Impact').Show();
+					SPUtility.GetSPField('What we need to do').Hide();
+					SPUtility.GetSPField('Support Information').Show();
+					SPUtility.GetSPField('Published').Show();					
+					SPUtility.GetSPField('Approver').Hide();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Hide();
+					//SPUtility.GetSPField('Expires').Show();
+				}
+				else
+				{
+					SPUtility.GetSPField('Approval Process ?').Show();
+					SPUtility.GetSPField('Title').Hide();
+					SPUtility.GetSPField('What is happening').Hide();
+					SPUtility.GetSPField('When').Hide();
+					SPUtility.GetSPField('From').Hide();
+					SPUtility.GetSPField('To').Hide();
+					SPUtility.GetSPField('Estimated Downtime').Hide();
+					SPUtility.GetSPField('Location').Hide();	            
+					SPUtility.GetSPField('Impact').Hide();
+					SPUtility.GetSPField('What we need to do').Hide();
+					SPUtility.GetSPField('Support Information').Hide();
+					SPUtility.GetSPField('Published').Hide();					
+					SPUtility.GetSPField('Approver').Hide();
+					SPUtility.GetSPField('Where to send ?').Hide();
+					SPUtility.GetSPField('Name of Slack Channel').Hide();
+					SPUtility.GetSPField('Email To').Hide();
+					SPUtility.GetSPField('CC').Hide();
+					SPUtility.GetSPField('BCC').Hide();
+					SPUtility.GetSPField('Status').Hide();
+					//SPUtility.GetSPField('Expires').Hide();
+				}
+			}
+			else
+			{
+				SPUtility.GetSPField('Form Type').SetValue('Select Template');
+				SPUtility.GetSPField('Form Type').Hide();
+				SPUtility.GetSPField('Title').Hide();
+				SPUtility.GetSPField('What is happening').Hide();
+				SPUtility.GetSPField('When').Hide();
+				SPUtility.GetSPField('From').Hide();
+				SPUtility.GetSPField('To').Hide();
+				SPUtility.GetSPField('Estimated Downtime').Hide();
+				SPUtility.GetSPField('Location').Hide();	            
+				SPUtility.GetSPField('Impact').Hide();
+				SPUtility.GetSPField('What we need to do').Hide();
+				SPUtility.GetSPField('Published').Hide();
+				SPUtility.GetSPField('Support Information').Hide();				
+				SPUtility.GetSPField('Approver').Hide();
+				SPUtility.GetSPField('Where to send ?').Hide();
+				SPUtility.GetSPField('Name of Slack Channel').Hide();
+				SPUtility.GetSPField('Email To').Hide();
+				SPUtility.GetSPField('CC').Hide();
+				SPUtility.GetSPField('BCC').Hide();
+				SPUtility.GetSPField('Status').Hide();
+				//SPUtility.GetSPField('Expires').Hide();
+			}			
+	    };
+		
+		HideOrShowOthersField();
+	    $(approvalProcess.Dropdown).on('change',HideOrShowOthersField);
+		$(formType.Dropdown).on('change',HideOrShowOthersField);
+		
+		var AlertPublished=function()
+		{	
+			var publishedValue = published.GetValue();		
+			if (publishedValue == 'Yes')
+			{
+				alert('Would you like to publish this announcement to Slack or Email ?');
+				SPUtility.GetSPField('Where to send ?').Show();
+				SPUtility.GetSPField('Name of Slack Channel').Hide();
+				SPUtility.GetSPField('Email To').Hide();
+				SPUtility.GetSPField('CC').Hide();
+				SPUtility.GetSPField('BCC').Hide();				
+			}
+			else
+			{
+				SPUtility.GetSPField('Where to send ?').SetValue('Select');
+				SPUtility.GetSPField('Where to send ?').Hide();
+				SPUtility.GetSPField('Name of Slack Channel').Hide();
+				SPUtility.GetSPField('Email To').Hide();
+				SPUtility.GetSPField('CC').Hide();
+				SPUtility.GetSPField('BCC').Hide();
+			}
+		};
+				
+		AlertPublished();
+		$(published.Dropdown).on('change',AlertPublished);
+		
+		var EnableSlackChannel=function()
+		{
+			var whereToSendValue = whereToSend.GetValue();
+			if(whereToSendValue == 'Select')
+			{				
+				SPUtility.GetSPField('Name of Slack Channel').Hide();
+				SPUtility.GetSPField('Email To').Hide();
+				SPUtility.GetSPField('CC').Hide();
+				SPUtility.GetSPField('BCC').Hide();
+			}
+			else if(whereToSendValue == 'Slack Only')
+			{			
+				SPUtility.GetSPField('Name of Slack Channel').Show();
+				SPUtility.GetSPField('Email To').Hide();
+				SPUtility.GetSPField('CC').Hide();
+				SPUtility.GetSPField('BCC').Hide();
+			}			
+			else if(whereToSendValue == 'Email Only')
+			{
+				SPUtility.GetSPField('Name of Slack Channel').Hide();
+				SPUtility.GetSPField('Email To').Show();
+				SPUtility.GetSPField('CC').Show();
+				SPUtility.GetSPField('BCC').Show();
+			}
+			else if (whereToSendValue == 'Both Slack and Email')
+			{
+				SPUtility.GetSPField('Name of Slack Channel').Show();
+				SPUtility.GetSPField('Email To').Show();
+				SPUtility.GetSPField('CC').Show();
+				SPUtility.GetSPField('BCC').Show();
+			}
+		};
+		EnableSlackChannel();
+		$(whereToSend.Dropdown).on('change',EnableSlackChannel);
+	});
+</script>

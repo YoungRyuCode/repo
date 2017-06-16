@@ -1,0 +1,386 @@
+﻿<script type="text/javascript" src="/Style%20Library/Nutanix/FormID/jquery.min.js"></script>
+<!--<script type='text/javascript' src='https://code.jquery.com/jquery-1.10.2.js'></script>-->
+<script type="text/javascript" src="/Style%20Library/Nutanix/FormID/formoid-solid-blue.js"></script>
+<style>
+    .WhatIsHappeningDiv, .WhenDiv, .FromDiv, .ToDiv, .LocationDiv, .DowntimeDiv, .impactDiv, .WhatWeNeedToDoDiv, .SupportInformationDiv {
+        padding-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    .TitleDiv {
+        color: #d11919 !important;
+        font-size: 1.4em !important;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .SeeAll {
+        text-align: right;
+        /*color: #d11919 !important;*/
+        font-size: 0.8em;
+    }
+
+    .formoid-solid-blue {
+        font-size: 1.0em !important;
+    }
+</style>
+<!--Focus on content JS-->
+<!--<script type="text/javascript">
+    function pageLoad()
+    {
+    $(document).ready(function(){
+    $("body").addClass("ms-fullscreenmode");
+    $("#fullscreenmode").css("display", "none");
+    $("#exitfullscreenmode").css("display", "");
+    });
+    }
+</script>-->
+<script type="text/javascript">
+    _spBodyOnLoadFunctionNames.push("HideBrandingsuite");
+    function HideBrandingsuite() {
+        SetFullScreenMode(true);
+    }
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var itemID = getParameterByName("ID", window.location.href);
+        var listName = "IT Announcement";
+        getListItem(listName, itemID);
+    });
+
+    // Get list itemID from url query string
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Get list item associated with Announcement Type
+    function getListItem(spListName, id) {
+        var announcementIMG = "/BU/US-IT/PublishingImages/Announcement%20%26%20News/IT%20Announcement.png";
+        var alertIMG = "/BU/US-IT/PublishingImages/Announcement%20%26%20News/IT%20Alerts.png";
+        var maintenanceIMG = "/BU/US-IT/PublishingImages/Announcement%20%26%20News/IT%20Maintenance.png";
+
+        // Getting our list items
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + spListName + "')/items(" + id + ")?$select=Form_x0020_Type,Title,What_x0020_is_x0020_happening,When,From,To,Location,Down_x0020_time,Estimated_x0020_Downtime,Impact,What_x0020_we_x0020_need_x0020_t,Support_x0020_Information",
+            method: "GET",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                //$("#fTitle").empty();
+                var listiteminfo = data.d;
+
+                // IT Announcement
+                if (listiteminfo.Form_x0020_Type == 'IT Announcement') {
+
+                    // Set a value for each field
+                    $('#formTypeDiv').prepend("<img id='formTypeImg' src='" + announcementIMG + "' style='width:600px; height:80px;'/>");
+                    $(".TitleDiv").append(listiteminfo.Title);
+                    $(".WhatIsHappeningDiv").append(listiteminfo.What_x0020_is_x0020_happening);
+                    $(".WhenDiv").append(listiteminfo.When);
+                    $('#_WINDOWHeader').hide();
+                    $('#_FROM').hide();
+                    $('#_FROMHeader').hide();
+                    $('#_TO').hide();
+                    $('#_TOHeader').hide();
+                    $('#_DOWNTIME').hide();
+                    $('#_DOWNTIMEHeader').hide();
+                    $('#_LOCATION').hide();
+                    $('#_LOCATIONHeader').hide();
+                    $(".impactDiv").append(listiteminfo.Impact);
+                    $(".WhatWeNeedToDoDiv").append(listiteminfo.What_x0020_we_x0020_need_x0020_t);
+                    $(".SupportInformationDiv").append(listiteminfo.Support_x0020_Information);
+                    $("#SeeAllLink").attr('href', _spPageContextInfo.webAbsoluteUrl + '/Lists/' + spListName + '/' + listiteminfo.Form_x0020_Type + '.aspx');
+
+                    //Set Read-Only
+                    $('#fTitle').prop('readonly', true);
+                    $("#fWHATISHAPPENING").prop('readonly', true);
+                    $("#fWHEN").prop('readonly', true);
+                    $("#fIMPACT").prop('readonly', true);
+                    $("#fWHATWENEEDTODO").prop('readonly', true);
+                    $("#fSUPPORTINFORMATION").prop('readonly', true);
+
+                    // Set Autoheight for textArea
+                    $('#mainDiv').on('change keyup keydown paste cut', 'textarea', function () {
+                        $(this).height(0).height(this.scrollHeight);
+                    }).find('textarea').change();
+
+                    //$('.medium').wysiwygEditor();
+                }
+
+                    // IT Alert
+                else if (listiteminfo.Form_x0020_Type == 'IT Alert') {
+                    // Set a value for each field
+                    $('#formTypeDiv').prepend("<img id='formTypeImg' src='" + alertIMG + "' style='width:600px; height:80px;' />");
+                    $(".TitleDiv").append(listiteminfo.Title);
+                    $(".WhatIsHappeningDiv").append(listiteminfo.What_x0020_is_x0020_happening);
+                    $("#_WHENHeader").hide();
+                    $("#_WHEN").hide();
+                    $('#_WINDOWHeader').hide();
+                    $('#_FROMHeader').hide();
+                    $('#_FROM').hide();
+                    $('#_TOHeader').hide();
+                    $('#_TO').hide();
+                    $('#_DOWNTIME').hide();
+                    $('#_DOWNTIMEHeader').hide();
+                    $('#_LOCATION').hide();
+                    $('#_LOCATIONHeader').hide();
+
+                    if ((listiteminfo.Impact) == null) {
+                        $("#_IMPACTHeader").hide();
+                        $(".impactDiv").hide();
+                    }
+                    else {
+                        $("#_IMPACTHeader").show();
+                        $(".impactDiv").append(listiteminfo.Impact);
+                    }
+
+                    if ((listiteminfo.What_x0020_we_x0020_need_x0020_t) == null) {
+                        $("#_WHATWENEEDTODOHeader").hide();
+                        $(".WhatWeNeedToDoDiv").hide();
+                    }
+                    else {
+                        $("#_WHATWENEEDTODOHeader").show();
+                        $(".WhatWeNeedToDoDiv").append(listiteminfo.What_x0020_we_x0020_need_x0020_t);
+                    }
+
+                    $(".SupportInformationDiv").append(listiteminfo.Support_x0020_Information);
+                    $("#SeeAllLink").attr('href', _spPageContextInfo.webAbsoluteUrl + '/Lists/' + spListName + '/' + listiteminfo.Form_x0020_Type + '.aspx');
+
+                    //Set Read-Only
+                    $('#fTitle').prop('readonly', true);
+                    $("#fWHATISHAPPENING").prop('readonly', true);
+                    $("#fIMPACT").prop('readonly', true);
+                    $("#fWHATWENEEDTODO").prop('readonly', true);
+                    $("#fSUPPORTINFORMATION").prop('readonly', true);
+
+                    // Set Autoheight for textArea
+                    $('#mainDiv').on('change keyup keydown paste cut', 'textarea', function () {
+                        $(this).height(0).height(this.scrollHeight);
+                    }).find('textarea').change();
+                }
+
+                    // IT Maintenance
+                else if (listiteminfo.Form_x0020_Type == 'IT Maintenance') {
+                    // Set a value for each field
+                    $('#formTypeDiv').prepend("<img id='formTypeImg' src='" + maintenanceIMG + "' style='width:600px; height:80px;' />");
+                    $(".TitleDiv").append(listiteminfo.Title);
+                    $(".WhatIsHappeningDiv").append(listiteminfo.What_x0020_is_x0020_happening);
+                    $(".WhenDiv").append(listiteminfo.When);
+
+                    var fromDate = listiteminfo.From;
+                    var from = new Date(fromDate);
+                    $('.FromDiv').append(from.toLocaleString('en-US'));
+                    //$('.FromDiv').append(from.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }));
+                    //$('.FromDiv').append(from.toString());
+
+                    var toDate = listiteminfo.To;
+                    var to = new Date(toDate);
+                    $('.ToDiv').append(to.toLocaleString('en-US'));
+                    //$('.ToDiv').append(from.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }));
+                    //$('.ToDiv').append(to.toString()); // to.toString() = Wed Jan 18 2017 08:00:00 GMT-0800 (Pacific Standard Time)
+
+                    $('.LocationDiv').append(listiteminfo.Location);
+                    $('.DowntimeDiv').append(listiteminfo.Estimated_x0020_Downtime);
+                    $(".impactDiv").append(listiteminfo.Impact);
+                    $("#_WHATWENEEDTODOHeader").hide();
+                    $(".WhatWeNeedToDoDiv").hide();
+                    $(".SupportInformationDiv").append(listiteminfo.Support_x0020_Information);
+                    $("#SeeAllLink").attr('href', _spPageContextInfo.webAbsoluteUrl + '/Lists/' + spListName + '/' + listiteminfo.Form_x0020_Type + '.aspx');
+
+                    //Set Read-Only
+                    $('#fTitle').prop('readonly', true);
+                    $("#fWHATISHAPPENING").prop('readonly', true);
+                    $("#fWHEN").prop('readonly', true);
+                    $("#fFROM").prop('readonly', true);
+                    $("#fTO").prop('readonly', true);
+                    $("#fLOCATION").prop('readonly', true);
+                    $("#fDOWNTIME").prop('readonly', true);
+                    $("#fIMPACT").prop('readonly', true);
+                    $("#fWHATWENEEDTODO").prop('readonly', true);
+                    $("#fSUPPORTINFORMATION").prop('readonly', true);
+
+                    //$('.medium').wysiwygEditor();
+
+                    // Set Autoheight for textArea
+                    $('#mainDiv').on('change keyup keydown paste cut', 'textarea', function () {
+                        $(this).height(0).height(this.scrollHeight);
+                    }).find('textarea').change();
+
+                }
+            },
+            error: function (data) {
+                failure(data);
+                //alert('What ??');
+            }
+        });
+    }
+
+    // Get date and time as short format
+    //function setDateTime
+    //{
+
+    //}
+</script>
+<!-- Start Formoid form-->
+<link rel="stylesheet" href="/Style%20Library/Nutanix/FormID/formoid-solid-blue.css" type="text/css" />
+<div id="mainDiv" class="formoid-solid-blue" style="background-color:#FFFFFF;font-size:15px;font-family:Tahoma,Geneva,sans-serif;color:#34495E;max-width:100%;min-width:150px; overflow:hidden" method="post">
+    <div class="submit"></div>
+    <!--Announcement Type Image-->
+    <!--<img id="formTypeImg" src="" alt="" width="1024" height="125">-->
+    <div id="formTypeDiv" style="text-align:center;">
+        <!--<img id="formTypeImg" src="" />-->
+    </div>
+    <!--Title-->
+    <!--<div id="_titleHeader" class="element-separator"><h3 class="section-break-title"><b>TITLE</b></h3></div>-->
+    <div id="_titleHeader" class="TitleDiv"><h3 class="section-break-title"></h3></div>
+    <div id="_title" class="element-input" title="Title">
+        <!--<label class="title" >
+            <span class="required">*</span>
+        </label>-->
+        <div class="item-cont">
+            <!--<input class="large" type="text" name="input" required="required" placeholder="Title" />-->
+            <!--<div class="TitleDiv"></div>-->
+            <input id="fTitle" class="large" type="text" name="input" placeholder="Title" style="display: none;" />
+            <!--<span class="icon-place"></span>-->
+        </div>
+    </div><br />
+    <!--What is happening-->
+    <div id="_WHATISHAPPENINGHeader" class="element-separator"><h3 class="section-break-title"><b>WHAT IS HAPPENING</b></h3></div>
+    <div id="_WHATISHAPPENING" class="element-textarea" title="WHAT IS HAPPENING">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="WhatIsHappeningDiv"></div><hr>
+            <textarea id="fWHATISHAPPENING" name="WHATISHAPPENINGTA" placeholder="WHAT IS HAPPENING" style="overflow: hidden; display: none;"></textarea>
+            <!--<span class="icon-place"></span>-->
+        </div>
+    </div>
+    <!--When-->
+    <div id="_WHENHeader" class="element-separator"><h3 class="section-break-title"><b>WHEN</b></h3></div>
+    <div id="_WHEN" class="element-textarea" title="WHEN">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="WhenDiv"></div>
+            <textarea id="fWHEN" class="medium" name="WHENTA" placeholder="WHEN" style="overflow: hidden; display: none;"></textarea>
+            <!--<span class="icon-place"></span>-->
+        </div>
+    </div>
+    <!--Maintenance Window-->
+    <div id="_WINDOWHeader" class="element-separator">
+        <h3 class="section-break-title"><b>MAINTENANCE WINDOW</b></h3>
+        <table>
+            <tr>
+                <!--From-->
+                <td>
+                    <div id="_FROMHeader"><h4 style="padding-left: 20px;"><b>From</b></h4></div>
+                    <div id="_FROM" class="element-date" title="FROM">
+                        <label class="title"></label>
+                        <div class="item-cont">
+                            <div class="FromDiv"></div>
+                            <input id="fFROM" class="medium" data-format="yyyy-mm-dd" type="text" placeholder="FROM" style="display: none;" />
+                            <!--<input class="medium" data-format="yyyy-mm-dd" type="date" name="date" placeholder="FROM" readonly />-->
+                            <!--<span class="icon-place"></span>-->
+                        </div>
+                    </div>
+                </td>
+                <!--To-->
+                <td>
+                    <div id="_TOHeader"><h4 style="padding-left: 20px;"><b>To</b></h4></div>
+                    <div id="_TO" class="element-date" title="TO">
+                        <label class="title"></label>
+                        <div class="item-cont">
+                            <div class="ToDiv"></div>
+                            <input id="fTO" class="medium" data-format="yyyy-mm-dd" type="text" placeholder="TO" style="display: none;" />
+                        </div>
+                    </div>
+                </td>
+                <!--Down Time-->
+                <td>
+                    <div id="_DOWNTIMEHeader"><h4 style="padding-left: 20px;"><b>Estimated Downtime</b></h4></div>
+                    <div id="_DOWNTIME" class="element-number" title="Estimated Downtime">
+                        <label class="title"></label>
+                        <div class="item-cont">
+                            <div class="DowntimeDiv"></div>
+                            <input id="fDOWNTIME" class="large" type="text" min="0" max="200" name="number" placeholder="DOWN TIME (hr)" value="" style="display: none;" />
+                            <!--<span class="icon-place"></span>-->
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <!--Location-->
+                <td>
+                    <div id="_LOCATIONHeader"><h4 style="padding-left: 20px;"><b>Location</b></h4></div>
+                    <div id="_LOCATION" class="element-input" title="LOCATION">
+                        <label class="title"></label>
+                        <div class="item-cont">
+                            <div class="LocationDiv"></div>
+                            <input id="fLOCATION" class="large" type="text" name="input1" placeholder="LOCATION" style="display: none;" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--Location-->
+    <!--<div id="_LOCATIONHeader" class="element-separator"><h3 class="section-break-title"><b>LOCATION</b></h3></div>
+    <div id="_LOCATION" class="element-input" title="LOCATION">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="LocationDiv"></div>
+            <input id="fLOCATION" class="large" type="text" name="input1" placeholder="LOCATION" style="display: none;" />
+        </div>
+    </div>-->
+    <!--Impact-->
+    <div id="_IMPACTHeader" class="element-separator-Impact"><h3 class="section-break-title"><b>IMPACT</b></h3></div>
+    <div id="_IMPACT" class="element-textarea" title="IMPACT">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="impactDiv"></div>
+            <textarea id="fIMPACT" class="medium" name="IMPACTTA" placeholder="IMPACT" style="overflow:hidden; display:none;"></textarea>
+            <!--<span class="icon-place"></span>-->
+        </div>
+    </div>
+    <!--What we need to do-->
+    <div id="_WHATWENEEDTODOHeader" class=" element-separator"><h3 class="section-break-title"><b>WHAT WE NEED TO DO</b></h3></div>
+    <div id="_WHATWENEEDTODO" class="element-textarea" title="WHAT WE NEED TO DO">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="WhatWeNeedToDoDiv"></div><hr>
+            <textarea id="fWHATWENEEDTODO" class="medium" name="WHATWENEEDTODOTA" placeholder="WHAT WE NEED TO DO" style="overflow: hidden; display: none;"></textarea>
+            <!--<span class="icon-place"></span>-->
+        </div>
+    </div>
+    <div class="SeeAll">
+        <a id="SeeAllLink" href="#"><i>See All</i></a>
+    </div>
+    <!--Support Information-->
+    <!--<div class="element-separator"><h3 class="section-break-title"><b>SUPPORT INFORMATION</b></h3></div>
+    <div class="element-textarea" title="SUPPORT INFORMATION">
+        <label class="title"></label>
+        <div class="item-cont">
+            <div class="SupportInformationDiv"></div>
+            <textarea id="fSUPPORTINFORMATION" class="medium" name="SUPPORTINFORMATIONTA" placeholder="SUPPORT INFORMATION" style="overflow: hidden; display: none;"></textarea>
+        </div>
+    </div>-->
+    <!--Submit-->
+    <div class="submit">
+        <div style="text-align:center; font-size:0.8em;">
+            <a href="https://nutanix.service-now.com" target="_blank">
+                IT Requests: <u>ServiceNow</u>      |
+            </a>
+            <a href="mailto:help@nutanix.com?Subject=IT%20Requests - " target="_blank">
+                General Inquiries: <u>help@nutanix.com</u>     |
+            </a>
+            <a href="https://nutanixinc.sharepoint.com/BU/US-IT" target="_blank">
+                <u>Global IT Service Portal</u>
+            </a>
+        </div>
+    </div>
+</div>

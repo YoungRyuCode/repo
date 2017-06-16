@@ -1,5 +1,5 @@
 ﻿$username = "Young.Ryu@nutanix.com"
-$password = "Cool@1120"
+$password = "*******"
 $secureStringPwd = $password | ConvertTo-SecureString -AsPlainText -Force 
 $Creds = New-Object System.Management.Automation.PSCredential -ArgumentList $username, $secureStringPwd
 $Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://outlook.office365.com/powershell-liveid/ -Credential $Creds -Authentication Basic -AllowRedirection

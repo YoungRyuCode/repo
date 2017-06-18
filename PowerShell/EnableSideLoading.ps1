@@ -1,4 +1,4 @@
-﻿$programFiles = [environment]::getfolderpath("programfiles")
+$programFiles = [environment]::getfolderpath("programfiles")
 
 add-type -Path $programFiles'\SharePoint Online Management Shell\' + `
   'Microsoft.Online.SharePoint.PowerShell\Microsoft.SharePoint.Client.dll'
